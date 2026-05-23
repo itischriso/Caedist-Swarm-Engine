@@ -1,0 +1,33 @@
+# Swarm Engine — .gitignore
+
+# SQLite runtime databases (schema is checked in; runtime DBs are not)
+*.db
+*.db-shm
+*.db-wal
+
+# Go build artifacts
+/core/bin/
+/core/dist/
+
+# AT module build artifacts
+at-dotnet/bin/
+at-dotnet/obj/
+at-python/__pycache__/
+at-python/*.egg-info/
+at-python/dist/
+at-go/swarm-at-go
+
+# Environment and secrets
+.env
+*.env
+swarm-local.yaml
+
+# IDE
+.idea/
+.vscode/
+*.suo
+*.user
+
+# OS
+.DS_Store
+Thumbs.db
