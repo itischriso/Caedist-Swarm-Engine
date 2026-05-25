@@ -551,9 +551,8 @@ no semantic boundary detection).
 | `swarm-at-go` | Go | go/ast | `github.com/itischriso/Caedist-Swarm-Engine/at-go` |
 
 `swarm-at-dotnet` is derived from FlowSpec, the static analysis component of
-[Caedist](https://github.com/itischriso/caedist). It is the reference implementation and
-the most complete — it produces all optional fields including `behavioral_spec`,
-`mermaid`, and `security_risks`.
+Caedist. It is the reference implementation and the most complete — it produces
+all optional fields including `behavioral_spec`, `mermaid`, and `security_risks`.
 
 `swarm-at-python` and `swarm-at-go` target the minimum viable capability level
 initially and add richer fields incrementally.

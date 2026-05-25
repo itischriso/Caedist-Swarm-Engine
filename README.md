@@ -223,7 +223,7 @@ These are known and stated honestly:
 
 The specification is complete. The implementation is not yet here.
 
-Swarm is being extracted from [Caedist](https://github.com/itischriso/caedist), where the engine has been running in production. The Go core implementation is in progress — the engine logic exists and has been validated, but carving it out cleanly from its host application takes time to do properly.
+Swarm is being extracted from Caedist — a private zero-trust SSDLC platform — where the engine has been running in production. The Go core implementation is in progress — the engine logic exists and has been validated, but carving it out cleanly from its host application takes time to do properly.
 
 **What is in this repository now:**
 
@@ -268,4 +268,4 @@ MIT. Use it. Build on it. Give the work a life.
 
 ## Origin
 
-Swarm was extracted from [Caedist](https://github.com/itischriso/caedist) — a zero-trust AI-assisted Secure Software Development Lifecycle platform. The swarm engine is the part of Caedist with value beyond that context. It is being open-sourced because the problem it solves — coherent LLM reasoning over large corpora across long timescales — is universal.
+Swarm was extracted from Caedist — a zero-trust AI-assisted Secure Software Development Lifecycle platform. The swarm engine is the part of Caedist with value beyond that context. It is being open-sourced because the problem it solves — coherent LLM reasoning over large corpora across long timescales — is universal.
