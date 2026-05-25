@@ -1,6 +1,6 @@
 # Swarm Engine API
 
-This document specifies the engine's public entry point contract — the operations that an orchestration layer (UI, CLI, REST handler, or daemon) calls to drive the Swarm. It is derived from the reference implementation's orchestration layer and serves as the authoritative interface specification for the Go core.
+This document specifies the engine's public entry point contract — the operations that an orchestration layer (UI, CLI, REST handler, or daemon) calls to drive the Swarm. It is derived from the reference implementation's orchestration layer and serves as the authoritative interface specification for any implementation of the engine.
 
 Every operation below maps to a method in `SwarmManager` (the engine's state machine). The orchestration layer owns no engine logic of its own — it validates user input, assembles parameters, and delegates.
 
@@ -22,7 +22,7 @@ Every operation below maps to a method in `SwarmManager` (the engine's state mac
 
 ## Participant ID Contract
 
-All participant IDs are caller-generated UUIDs (`Guid.NewGuid().ToString()`). The engine treats them as opaque strings.
+All participant IDs are caller-generated UUIDs. The engine treats them as opaque strings.
 
 **Worker name format**: `"{personaRole} ({modelName})"`  
 **Collapser name format**: `"[Collapser] {personaRole} ({modelName})"`
@@ -54,11 +54,11 @@ Call once per `(model, persona)` pair before dispatch. Participants are project-
 
 ```
 dispatchSwarmObjective(
-    workerParticipantIds : List<string>,  // all registered worker IDs
-    collapserParticipantId : string,      // single collapser ID
-    objective : string,                   // the question / task
+    workerParticipantIds : [string],  // all registered worker IDs
+    collapserParticipantId : string,  // single collapser ID
+    objective : string,               // the question / task
     projectId : int
-) → List<int>                             // created plan IDs
+) → [int]                             // created plan IDs
 ```
 
 Creates one `ActionablePlan` per `(worker, contextBucket)` pair, plus one blocked Collapser plan. Returns all created plan IDs. The returned list must be passed to `linkPlansToCheckpoint` immediately after.
@@ -86,11 +86,11 @@ With 3 models and 2 personas, this produces 6 worker plans per bucket plus 1 Col
 
 ```
 dispatchFollowUpGenerations(
-    workerParticipantIds : List<string>,
+    workerParticipantIds : [string],
     collapserParticipantId : string,
-    followUps : Dictionary<int, string>,  // contextBucketId → follow-up objective
+    followUps : map<int, string>,  // contextBucketId → follow-up objective
     projectId : int
-) → List<int>                             // created plan IDs
+) → [int]                          // created plan IDs
 ```
 
 Appends additional objective runs to specific buckets without re-dispatching the full project. `followUps` is a sparse map — only buckets that need a follow-up question are included. Returns plan IDs; append to the same checkpoint link list as the primary dispatch.
@@ -130,7 +130,7 @@ Creates a checkpoint record in `Pending` state. Does not yet become the active b
 ```
 linkPlansToCheckpoint(
     checkpointId : int,
-    planIds      : List<int>,
+    planIds      : [int],
     projectId    : int
 ) → void
 ```
@@ -182,12 +182,12 @@ Clusters completed plans by semantic similarity (centroid-greedy algorithm) and 
 
 ```
 dispatchSynthesis(
-    harvestId       : int,
-    clusterId       : int,
-    outputType      : string,   // e.g. "Summary", "ActionPlan", "RiskRegister"
-    workerIds       : List<string>,   // composite keys — see format below
-    collapserId     : string,         // composite key
-    projectId       : int
+    harvestId  : int,
+    clusterId  : int,
+    outputType : string,    // e.g. "Summary", "ActionPlan", "RiskRegister"
+    workerIds  : [string],  // composite keys — see format below
+    collapserId : string,   // composite key
+    projectId  : int
 ) → void
 ```
 
@@ -212,7 +212,7 @@ promoteArtifact(
 ) → void
 ```
 
-Marks the artifact as promoted and records the target. The reference implementation uses a system-generated placeholder (`"System-{ticks}"`); production integrations should pass a real destination reference.
+Marks the artifact as promoted and records the target. Production integrations should pass a real destination reference (a ticket ID, file path, or system identifier). A generated placeholder is acceptable during development.
 
 ---
 

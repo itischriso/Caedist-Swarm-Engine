@@ -1,10 +1,3 @@
-# Swarm — README Draft
-
-**Status**: Draft  
-**Purpose**: The README is the innovation narrative. It must earn attention in the first three paragraphs.
-
----
-
 # Swarm
 
 **Horizontal context scaling for large language models.**
@@ -226,6 +219,36 @@ These are known and stated honestly:
 
 ---
 
+## Repository Status
+
+The specification is complete. The implementation is not yet here.
+
+Swarm is being extracted from [Caedist](https://github.com/itischriso/caedist), where the engine has been running in production. The Go core implementation is in progress — the engine logic exists and has been validated, but carving it out cleanly from its host application takes time to do properly.
+
+**What is in this repository now:**
+
+| Asset | Status |
+|-------|--------|
+| [`core/schema/swarm.sql`](core/schema/swarm.sql) | Complete — all 19 tables, indexes, views, with design rationale |
+| [`ARCHITECTURE.md`](ARCHITECTURE.md) | Complete — full execution model, all subsystems |
+| [`AT_MODULE_SPEC.md`](AT_MODULE_SPEC.md) | Complete — AT module JSON contract |
+| [`docs/engine-api.md`](docs/engine-api.md) | Complete — orchestration entry point contract |
+| [`docs/personas.md`](docs/personas.md) | Complete — all personas with operational notes |
+| [`docs/swarm-db-diagram.md`](docs/swarm-db-diagram.md) | Complete — full ER diagram |
+| Go core (`core/`) | Not yet present |
+| AT modules | Not yet present |
+| CLI (`cmd/swarm`) | Not yet present |
+
+**Is there enough to build from?**
+
+Yes. The schema defines the full state machine. The architecture document specifies every subsystem — compaction, thermal tracking, the Resolution Controller, checkpoint rollover, the N×M dispatch model — with enough precision that implementation decisions are design choices, not unknowns. The engine API document specifies the orchestration contract. The AT module spec defines the analysis tool interface.
+
+A builder working from this repository would be making an independent implementation of a specified system, not guessing at intent.
+
+Contributions and parallel implementations are welcome. If you build it first, open a PR.
+
+---
+
 ## Architecture Deep-Dive
 
 - [ARCHITECTURE.md] — Context lifecycle, thermal model, Collapser pattern, checkpoint system
@@ -245,4 +268,4 @@ MIT. Use it. Build on it. Give the work a life.
 
 ## Origin
 
-Swarm was extracted from [Caedist](https://github.com/itischriso/caedist) — a zero-trust AI-assisted Secure Software Development Lifecycle platform. The swarm engine is the part of Caedist with value beyond the SSDLC context. It is being open-sourced because the problem it solves — coherent LLM reasoning over large corpora across long timescales — is universal.
+Swarm was extracted from [Caedist](https://github.com/itischriso/caedist) — a zero-trust AI-assisted Secure Software Development Lifecycle platform. The swarm engine is the part of Caedist with value beyond that context. It is being open-sourced because the problem it solves — coherent LLM reasoning over large corpora across long timescales — is universal.
